@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'io.gatling.gradle' version '3.14.3.8'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
+dependencies {
+    // Gatling Java DSL and HTTP
+    gatling 'io.gatling:gatling-core-java:3.14.3'
+    gatling 'io.gatling:gatling-http-java:3.14.3'
+    // Charts (optional, required for the HTML report)
+    implementation("io.gatling.highcharts:gatling-charts-highcharts:3.14.3")
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+}
+
+gatling {
+    // default source folder is src/gatling; using Java sources under src/gatling/java
+//    simulationsFolder = file('src/gatling/java/simulations')
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
